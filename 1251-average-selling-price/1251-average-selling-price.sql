@@ -1,7 +1,7 @@
 # Write your MySQL query statement below
 SELECT
     p.product_id,
-    ROUND(SUM(p.price * us.units) / SUM(us.units), 2) AS average_price
+    COALESCE(ROUND(SUM(p.price * us.units) / SUM(us.units), 2), 0) AS average_price
 FROM
     Prices AS p
 LEFT JOIN
