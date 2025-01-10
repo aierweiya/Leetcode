@@ -4,8 +4,8 @@ SELECT
 FROM
     Activity AS a
 LEFT JOIN (
-    SELECT player_id, MAX(event_date) AS next_date
+    SELECT player_id, MIN(event_date) AS next_date
     FROM Activity
     GROUP BY player_id
 ) AS a2 ON a.player_id = a2.player_id
-WHERE DATEDIFF(a2.next_date, a.event_date) = 1
+WHERE DATEDIFF(a.event_date, a2.next_date) = 1
