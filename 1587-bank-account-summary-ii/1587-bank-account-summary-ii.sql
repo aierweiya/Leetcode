@@ -7,4 +7,4 @@ FROM
 LEFT JOIN
     Transactions AS t ON u.account = t.account
 GROUP BY u.account
-HAVING SUM(amount) >= 10000
+HAVING SUM(amount) > 10000
