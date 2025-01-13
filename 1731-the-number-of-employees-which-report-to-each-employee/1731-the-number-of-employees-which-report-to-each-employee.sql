@@ -8,6 +8,9 @@ FROM
     Employees AS l
 LEFT JOIN 
     Employees AS r ON r.reports_to = l.employee_id
-GROUP BY l.employee_id
-HAVING reports_count > 0
-ORDER BY l.employee_id ASC
+GROUP BY 
+    l.employee_id
+HAVING 
+    reports_count > 0
+ORDER BY 
+    l.employee_id ASC
