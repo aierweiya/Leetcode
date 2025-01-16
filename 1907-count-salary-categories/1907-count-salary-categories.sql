@@ -1,7 +1,7 @@
 # Write your MySQL query statement below
 SELECT
     'Low Salary' AS category,
-    IFNULL(COUNT(income), 0) AS accounts_count
+    COUNT(income) AS accounts_count
 FROM
     Accounts
 WHERE
@@ -9,7 +9,7 @@ WHERE
 UNION
 SELECT
     'Average Salary' AS category,
-    IFNULL(COUNT(income), 0) AS accounts_count
+    COUNT(income) AS accounts_count
 FROM
     Accounts
 WHERE
@@ -17,7 +17,7 @@ WHERE
 UNION
 SELECT
     'High Salary' AS category,
-    IFNULL(COUNT(income), 0) AS accounts_count
+    COUNT(income) AS accounts_count
 FROM
     Accounts
 WHERE
