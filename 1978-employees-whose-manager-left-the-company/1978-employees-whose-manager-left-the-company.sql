@@ -2,14 +2,13 @@
 SELECT
     employee_id
 FROM
-    (
-        SELECT
-            *
-        FROM
-            Employees
-        WHERE
-            salary < 30000
-    ) AS e
+    Employees
 WHERE
-    manager_id NOT IN (SELECT employee_id FROM Employees)
-ORDER BY employee_id ASC
+    manager_id NOT IN (
+        SELECT 
+            employee_id 
+        FROM 
+            Employees
+        ) AND salary < 30000
+ORDER BY 
+    employee_id ASC
