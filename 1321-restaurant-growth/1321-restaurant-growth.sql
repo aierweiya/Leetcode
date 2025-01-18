@@ -1,6 +1,6 @@
 # Write your MySQL query statement below
 SELECT
-    c1.seven_day AS visited_on,
+    DISTINCT c1.seven_day AS visited_on,
     (SELECT SUM(c2.amount)
      FROM Customer c2
      WHERE c2.visited_on BETWEEN c1.visited_on AND c1.seven_day
