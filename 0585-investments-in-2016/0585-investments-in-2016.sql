@@ -6,16 +6,16 @@ FROM
 GROUP BY 
     tiv_2015
 HAVING 
-    COUNT(tiv_2015) > 1
+    COUNT(*) > 1
 ),
 u_location AS (SELECT
-    CONCAT(lat, lon) AS location
+    lat, lon
 FROM
     Insurance
 GROUP BY
-    location
+    lat, lon
 HAVING
-    COUNT(location) > 1
+    COUNT(*) = 1
 )
 
 SELECT
@@ -24,4 +24,4 @@ FROM
     Insurance
 WHERE
     tiv_2015 IN (SELECT tiv_2015 FROM same_2015)
-    AND CONCAT(lat, lon) NOT IN (SELECT location FROM u_location)
+    AND (lat, lon) IN (SELECT lat, lon FROM u_location)
