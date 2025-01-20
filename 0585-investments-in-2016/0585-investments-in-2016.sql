@@ -6,8 +6,8 @@ FROM
 GROUP BY 
     tiv_2015
 HAVING 
-    COUNT(tiv_2015)
-LIMIT 1),
+    COUNT(tiv_2015) > 1
+),
 u_location AS (SELECT
     CONCAT(lat, lon) AS location
 FROM
@@ -19,7 +19,7 @@ HAVING
 )
 
 SELECT
-    SUM(tiv_2016) AS tiv_2016
+    ROUND(SUM(tiv_2016), 2) AS tiv_2016
 FROM
     Insurance
 WHERE
