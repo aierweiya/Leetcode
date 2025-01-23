@@ -9,7 +9,7 @@ BEGIN
         SELECT
             id,
             salary,
-            DENSE_RANK() over(ORDER BY salary) AS salary_rank
+            DENSE_RANK() over(ORDER BY salary DESC) AS salary_rank
         FROM
             Employee
         ) AS e
