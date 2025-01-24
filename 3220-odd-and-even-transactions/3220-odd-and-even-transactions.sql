@@ -13,3 +13,5 @@ FROM
     ) AS t
 GROUP BY 
     transaction_date
+ORDER BY
+    transaction_date
