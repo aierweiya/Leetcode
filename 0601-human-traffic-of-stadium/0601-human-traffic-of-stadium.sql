@@ -2,21 +2,11 @@
 WITH new_table AS (
     SELECT
         *,
-        LAG(id) OVER(ORDER BY id) AS prev_con,
-        LEAD(id) OVER(ORDER BY id) AS next_con
+        id - ROW_NUMBER() OVER(ORDER BY id) AS ranks
     FROM
         Stadium
     WHERE
         people >= 100
-    ),
-
-filtered_table AS(
-    SELECT
-        *
-    FROM
-        new_table
-    WHERE
-        next_con - prev_con <> id AND next_con - id = 1 OR next_con IS NULL
     )
 
 SELECT
@@ -24,6 +14,11 @@ SELECT
     visit_date,
     people
 FROM
-    filtered_table
+    new_table
 WHERE
-    (SELECT COUNT(*) FROM filtered_table) >= 3
+    ranks IN (
+        SELECT ranks 
+        FROM new_table 
+        GROUP BY ranks 
+        HAVING COUNT(*) >= 3
+        )
