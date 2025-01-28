@@ -1,9 +1,4 @@
 # Write your MySQL query statement below
-#SELECT
-    #CONCAT(UPPER(LEFT(name, 1)), LOWER(SUBSTRING(name, 2)))
-#    SUBSTRING(content_text, 1, LOCATE(' ', content_text)) AS word
-
-
 WITH RECURSIVE split_string AS (
     -- 初始部分
     SELECT 
