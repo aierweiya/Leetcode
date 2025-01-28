@@ -1,8 +1,14 @@
 # Write your MySQL query statement below
+#SELECT
+    #CONCAT(UPPER(LEFT(name, 1)), LOWER(SUBSTRING(name, 2)))
+#    SUBSTRING(content_text, 1, LOCATE(' ', content_text)) AS word
+
+
 WITH RECURSIVE split_string AS (
     -- 初始部分
     SELECT 
-        1 AS start, 
+        1 AS start,
+        content_id,
         REGEXP_SUBSTR(content_text, '[^ ]+', 1, 1) AS part,  -- 提取第一個部分
         SUBSTRING(content_text, LENGTH(REGEXP_SUBSTR(content_text, '[^ -]+', 1, 1)) + 1) AS remaining,  -- 剩餘部分（包括分隔符）
         CONCAT(
@@ -14,6 +20,7 @@ WITH RECURSIVE split_string AS (
     -- 遞迴部分
     SELECT 
         start + 1,  -- 遞迴計數
+        content_id,
         REGEXP_SUBSTR(remaining, '[^ -]+', 1, 1),  -- 提取下一個部分
         SUBSTRING(remaining, LENGTH(REGEXP_SUBSTR(remaining, '[^ -]+', 1, 1)) + 2),  -- 更新剩餘部分（包括分隔符）
         CONCAT(
@@ -32,15 +39,9 @@ WITH RECURSIVE split_string AS (
 )
 -- 最終查詢
 SELECT 
-    content_id,
+    l.content_id,
     l.content_text AS original_text,
     r.converted_text
 FROM user_content AS l
-JOIN (
-    SELECT 
-        converted_text,
-        ROW_NUMBER() OVER() AS id
-    FROM split_string 
-    WHERE remaining IS NULL OR remaining = ''
-    ) AS r ON l.content_id = r.id
+LEFT JOIN (SELECT content_id, converted_text FROM split_string WHERE remaining IS NULL OR remaining = '') AS r ON l.content_id = r.content_id
 ;  -- 只返回最終結果
